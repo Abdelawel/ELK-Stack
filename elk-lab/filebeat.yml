@@ -1,0 +1,29 @@
+# # =============================================================
+# #  FILEBEAT CONFIG — Linux Edge Node A
+# #  Watches Nginx access logs and ships to Logstash on the Hub.
+# #  Replace <HUB_IP> with your Hub machine's actual IP address.
+# # =============================================================
+
+# filebeat.inputs:
+#   - type: log
+#     enabled: true
+#     paths:
+#       - /var/log/nginx/access.log        # path to Nginx access log
+#     fields:
+#       log_source: nginx                  # Logstash uses this to pick the right filter
+#       environment: lab
+#     fields_under_root: true              # puts fields at top level, not under [fields]
+
+# processors:
+#   - add_host_metadata:
+#       when.not.contains.tags: forwarded
+
+# output.logstash:
+#   hosts: ["<HUB_IP>:5044"]              # ← replace with your Hub machine IP
+
+# logging.level: info
+# logging.to_files: true
+# logging.files:
+#   path: /var/log/filebeat
+#   name: filebeat.log
+#   keepfiles: 7
