@@ -1,0 +1,14 @@
+filebeat.inputs:
+- type: container
+  paths:
+    - /var/lib/docker/containers/*/*.log
+  processors:
+    - add_docker_metadata:
+        host: "unix:///var/run/docker.sock"
+    - drop_event.when.not.contains.container.name: "checkout-service"
+  fields:
+    log_source: "checkout_service"
+  fields_under_root: true
+
+output.logstash:
+  hosts: ["logstash:5044"]

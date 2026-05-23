@@ -1,0 +1,26 @@
+# =============================================================
+#  WINLOGBEAT CONFIG — Windows Edge Node B
+#  Captures Security events 4624 & 4625 and ships to Logstash.
+#  Hub IP is set to 192.168.56.10
+# =============================================================
+
+winlogbeat.event_logs:
+  - name: Security
+    event_id: 4624, 4625              # 4624 = logon success, 4625 = logon failure
+    fields:
+      log_source: windows_security    # Logstash uses this to pick the right filter
+      environment: lab
+    fields_under_root: true
+
+processors:
+  - add_host_metadata: ~
+
+output.logstash:
+  hosts: ["192.168.56.10:5044"]       # VirtualBox Static IP for the Hub
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: 'C:\ProgramData\winlogbeat\logs'
+  name: winlogbeat.log
+  keepfiles: 7
