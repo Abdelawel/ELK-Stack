@@ -1,7 +1,7 @@
 # =============================================================
 #  WINLOGBEAT CONFIG — Windows Edge Node B
 #  Captures Security events 4624 & 4625 and ships to Logstash.
-#  Replace <HUB_IP> with your Hub machine's actual IP address.
+#  Hub IP is set to 192.168.56.10
 # =============================================================
 
 winlogbeat.event_logs:
@@ -16,7 +16,7 @@ processors:
   - add_host_metadata: ~
 
 output.logstash:
-  hosts: ["<HUB_IP>:5044"]           # ← replace with your Hub machine IP
+  hosts: ["192.168.56.10:5044"]       # VirtualBox Static IP for the Hub
 
 logging.level: info
 logging.to_files: true
